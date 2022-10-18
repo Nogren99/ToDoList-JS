@@ -56,3 +56,41 @@ emptyButton.addEventListener("click",emptyList)
 function emptyList(){
     toDoList.innerHTML=""
 }
+
+
+//Guardar lsita en storage
+
+let saveButton = document.getElementById("save-button")
+saveButton.addEventListener("click",saveList)
+
+function saveList(){
+    let items = []
+
+    for(let i=0;i<toDoList.children.length;i++) { //una vez por cada hijo
+        let item=toDoList.children[i]
+        
+        let itemInfo = {
+            task: item.innerText,
+            completed: item.classList.contains("compleeted")
+        }
+
+        items.push(itemInfo)
+    }
+
+    localStorage.setItem("list",JSON.stringify(items))
+}
+
+//Cargar lista del storage
+
+
+function loadList(){
+    let list = JSON.parse(localStorage.getItem("list")) // traigo un array de objetos
+
+    for(let i=0 ;i<list.length;i++){
+        newToDoItem(list[i].task)
+    }
+
+
+}
+
+loadList()
