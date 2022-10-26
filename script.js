@@ -32,10 +32,6 @@ function newToDoItem(text,completed){  //creamos elemento de la lista
     items.push(itemInfo)
     localStorage.setItem("list",JSON.stringify(items))
 
-
-    
-
-
     toDoList.append(toDoItem)
     toDoItem.addEventListener("click",toggleItemState) //le agregamos para que se quede esperando un click que eecute toggle
 }
@@ -73,12 +69,30 @@ let emptyButton = document.getElementById("empty-button")
 emptyButton.addEventListener("click",emptyList)
 
 function emptyList(){
-    toDoList.innerHTML=""
-    saveList();
+    
+
+    Swal.fire({
+        title: '¿Quieres eliminar TODA la lista?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: `Cancelar`,
+        confirmButtonColor: '#FFDCAE',
+        denyButtonColor: '#ADCF9F',
+
+      }).then((result) => {
+        if (result.isConfirmed) {
+            toDoList.innerHTML=""
+            saveList();
+            Swal.fire('Lista eliminada!', '', 'success')
+        } else if (result.isDenied) {
+            Swal.fire('La lista no fue eliminada', '', 'info')
+        }
+      })
+
 }
 
 
-//Guardar lsita en storage
+//Guardar lista en storage
 
 /*
 <button id="save-button" class="pretty-button">Guardar</button>
